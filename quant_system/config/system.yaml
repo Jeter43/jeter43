@@ -1,0 +1,55 @@
+# 系统基础配置
+system:
+  # 运行模式
+  mode: "full_automation"  # 可选: stock_selection_only, risk_management_only, full_automation, backtest, debug
+  environment: "development"  # 环境: development, testing, production
+
+  # 系统标识
+  system_id: "quant_trading_system_v3"
+  version: "3.0.0"
+
+  # 执行频率配置
+  execution_intervals:
+    selection_interval_minutes: 60      # 选股间隔(分钟)
+    risk_check_interval_seconds: 60      # 风控检查间隔(秒)
+    trading_check_interval_seconds: 10   # 交易检查间隔(秒)
+    scaling_check_interval_minutes: 30   # 分级仓位检查间隔(分钟)
+    batch_risk_check_minutes: 15         # 批次风控检查间隔(分钟)
+    performance_update_minutes: 5        # 性能更新间隔(分钟)
+
+  # 数据配置
+  data:
+    market_data_source: "broker"  # broker, database, file
+    historical_data_days: 365     # 历史数据天数
+    realtime_update: true         # 实时更新
+    cache_enabled: true           # 缓存启用
+    cache_ttl_minutes: 10         # 缓存有效期
+
+  # 日志配置
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    enable_file_log: true
+    enable_console_log: true
+    log_file_path: "./logs/trading_system.log"
+    max_log_size_mb: 100
+    backup_count: 5
+    enable_structured_logging: true
+
+  # 监控配置
+  monitoring:
+    enable_health_check: true
+    health_check_interval: 300    # 健康检查间隔(秒)
+    enable_metrics: true
+    metrics_port: 9090
+    enable_alerting: true
+    alert_channels: ["log", "console"]  # log, console, email, webhook
+
+  # 错误处理
+  error_handling:
+    max_retry_attempts: 3
+    retry_delay_seconds: 5
+    enable_graceful_degradation: true
+    critical_error_timeout: 300   # 关键错误超时(秒)
+
+# 系统基础配置仅包含运行环境、监控、日志、错误与执行频率等。
+# 策略/交易/风控/仓位等执行参数请放在 `trading.yaml` 中，避免重复。

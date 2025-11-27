@@ -1,0 +1,78 @@
+# 多市场配置
+default_market: "hk"
+auto_switch: false
+
+markets:
+hk:
+    market_type: "hk"
+    broker_type: "futu"
+    enabled: true
+    currency: "HKD"
+    parameters:
+    host: "127.0.0.1"
+    port: 11111
+    security_firm: "FUTU"
+    trading_hours:
+    timezone: "Asia/Hong_Kong"
+    regular_hours:
+       - start: "09:30"
+         end: "12:00"
+       - start: "13:00"
+         end: "16:00"
+
+a_share:
+    market_type: "a_share"
+    broker_type: "eastmoney"
+    enabled: true
+    currency: "CNY"
+    parameters:
+    api_key: "your_eastmoney_key"
+    security_firm: "EASTMONEY"
+    trading_hours:
+    timezone: "Asia/Shanghai"
+    regular_hours:
+       - start: "09:30"
+         end: "11:30"
+       - start: "13:00"
+         end: "15:00"
+
+us:
+   market_type: "us"
+   broker_type: "futu"
+   enabled: true
+   currency: "USD"
+   parameters:
+   host: "127.0.0.1"
+   port: 11111
+   security_firm: "FUTU_US"
+   trading_hours:
+   timezone: "America/New_York"
+   regular_hours:
+       - start: "09:30"
+         end: "16:00"
+   pre_market_hours:
+     - start: "04:00"
+       end: "09:30"
+   post_market_hours:
+     - start: "16:00"
+       end: "20:00"
+
+
+crypto:
+    market_type: "crypto"
+    broker_type: "binance"
+    enabled: true
+    currency: "USDT"
+    parameters:
+      api_key: "dAbggsgdU6pxBlBe7oDeyMDo5YGvRhU1lztXWmjwN6Cqm3Vq9HOiNFyyOKoITJbx"
+      secret_key: "l0U9OAdKvtlrTvWZiDFhrJPMDj5TXJbNiDm7gWZt0G4X7YTUndjq0faLldqvQV6m"
+      testnet: true  # 使用测试网（推荐用于开发）
+      # testnet: false  # 生产环境
+    trading_hours:
+      timezone: "UTC"
+      regular_hours:
+        - start: "00:00"
+          end: "24:00"  # 7x24小时交易
+    min_trade_amount: 10.0
+    price_precision: 8
+    amount_precision: 8
