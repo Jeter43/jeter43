@@ -1,0 +1,155 @@
+# 交易核心配置
+trading:
+  # 交易环境
+  environment: "SIMULATE"  # SIMULATE, REAL
+  trading_password: ""  # 实盘交易密码
+
+  # 交易成本
+  commission_rate: 0.0003  # 手续费率
+  slippage: 0.001          # 滑点
+  trade_execution_delay: 1000  # 交易执行延迟(ms)
+
+  # 交易限制
+  max_trade_value: 500000     # 单笔最大交易金额
+  max_position_ratio: 0.2     # 单只股票最大仓位比例
+  initial_position_ratio: 0.1 # 初始建仓比例
+  risk_tolerance: 0.02        # 风险容忍度
+
+  # 分级仓位配置
+  position_scaling:
+    enabled: true  # 是否启用分级仓位管理
+
+    # 级别配置
+    levels:
+      level1:
+        max_ratio: 0.10        # L1最大仓位比例
+        stop_loss_ratio: 0.08  # L1止损比例
+        trailing_stop_ratio: 0.05  # L1移动止损比例
+
+      level2:
+        profit_threshold: 0.08    # L1→L2盈利阈值
+        add_ratio: 0.10           # L1→L2加仓比例
+        max_ratio: 0.20           # L2最大仓位比例 (L1 + L2)
+        stop_loss_ratio: 0.04     # L2止损比例
+        trailing_stop_ratio: 0.04 # L2移动止损比例
+        min_holding_days: 3       # 最小持仓天数
+        volatility_multiplier: 1.5  # 波动率止损倍数
+
+      level3:
+        profit_threshold: 0.08    # L2→L3盈利阈值
+        add_ratio: 0.05           # L2→L3加仓比例
+        max_ratio: 0.25           # L3最大仓位比例 (L1 + L2 + L3)
+        stop_loss_ratio: 0.03     # L3止损比例
+        trailing_stop_ratio: 0.03 # L3移动止损比例
+        min_holding_days: 5       # 最小持仓天数
+        volatility_multiplier: 1.2  # 波动率止损倍数
+        profit_taking_ratio: 0.12  # 止盈比例
+
+    # 加仓条件配置
+    conditions:
+      min_confidence_score: 70        # 最小置信度分数
+      required_trend_strength: 60     # 所需趋势强度
+      volume_increase_ratio: 1.2      # 成交量增长比例
+      max_market_decline: -0.02       # 最大市场跌幅
+      check_interval_minutes: 10      # 检查间隔(分钟)
+
+# 风险控制配置
+risk_config:
+  # 基础风控
+  stop_loss_pct: 0.05           # 止损百分比
+  max_drawdown_pct: 0.08        # 最大回撤
+  enable_auto_close: true       # 启用自动平仓
+  check_interval_seconds: 60    # 风控检查间隔
+
+  # 批次风控配置
+  batch_risk_management:
+    enabled: true
+    check_interval_minutes: 15
+    auto_execute_stop_loss: true
+    auto_execute_trailing_stop: true
+    require_confirmation_above: 0.10  # 盈利10%以上需要确认
+    max_batch_actions_per_check: 3    # 每次检查最大执行数量
+
+# 仓位管理配置
+position_config:
+  # 基础仓位配置
+  max_stocks: 3                  # 最大持仓股票数量
+  initial_position_ratio: 0.1    # 初始仓位比例
+  max_position_weight: 0.2       # 单仓最大权重
+
+  # 分级仓位配置引用
+  scaling_config_ref: "position_scaling"
+
+  # 其他仓位参数
+  rebalance_threshold: 0.05      # 再平衡阈值
+  min_trade_value: 1000.0        # 最小交易金额
+  diversification_min: 5         # 最小分散度
+
+# 回测配置
+backtest_config:
+  # 基础回测参数
+  commission_rate: 0.0003        # 手续费率
+  slippage: 0.001                # 滑点
+  initial_capital: 1000000.0     # 初始资金
+  start_date: "2023-01-01"       # 开始日期
+  end_date: "2024-10-31"         # 结束日期
+
+  # 回测特定配置
+  allow_universe_change: true    # 允许标的池变化
+  benchmark: "000300.SH"         # 基准指数
+  data_frequency: "daily"        # 数据频率
+  warmup_period: 30              # 预热期
+
+# 券商连接配置
+broker_config:
+  broker_name: "futu"            # 券商名称
+  host: "127.0.0.1"              # 主机地址
+  port: 11111                    # 端口号
+  api_key: ""                    # API密钥
+  simulate: true                 # 模拟交易
+  timeout: 30                    # 超时时间
+  retry_count: 3                 # 重试次数
+
+# 高级交易配置
+advanced_trading:
+  # 执行策略
+  execution_strategy: "aggressive"  # aggressive, conservative, balanced
+
+  # 市场时段控制
+  trading_hours:
+    morning_start: "09:30"
+    morning_end: "11:30"
+    afternoon_start: "13:00"
+    afternoon_end: "15:00"
+
+  # 波动率适应
+  volatility_adjustment: true
+  max_volatility_ratio: 2.0
+
+  # 流动性考虑
+  min_liquidity_ratio: 0.01
+  max_trade_volume_ratio: 0.1
+
+# 监控和日志配置
+monitoring:
+  # 性能监控
+  enable_performance_tracking: true
+  performance_update_interval: 300  # 5分钟
+
+  # 风险监控
+  enable_risk_monitoring: true
+  risk_alert_threshold: 0.7
+
+  # 交易日志
+  log_all_trades: true
+  log_trade_details: true
+  max_log_files: 10
+  log_retention_days: 30
+
+# 扩展配置字段
+extra:
+  # 可以在这里添加自定义配置
+  custom_parameters: {}
+  feature_flags:
+    enable_experimental_features: false
+    enable_debug_mode: false
